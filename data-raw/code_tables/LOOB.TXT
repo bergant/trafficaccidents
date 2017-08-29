@@ -1,0 +1,69 @@
+     LOOB                  ŠIFRANT UPRAVNIH ENOT IN STARIH OBÈIN
+
+     5501                  AJDOVŠÈINA                                                    
+     5502                  BREŽICE                                                       
+     5503                  CELJE                                                         
+     5504                  CERKNICA                                                
+     5505                  ÈRNOMELJ                                                      
+     5506                  DOMŽALE                                                       
+     5507                  DRAVOGRAD                                                     
+     5508                  GORNJA RADGONA                                                
+     5509                  GROSUPLJE                                                     
+     5510                  HRASTNIK                                                      
+     5511                  IDRIJA                                                        
+     5512                  ILIRSKA BISTRICA                                              
+     5513                  IZOLA                                                         
+     5514                  JESENICE                                                      
+     5515                  KAMNIK                                                        
+     5516                  KOÈEVJE                                                       
+     5517                  KOPER                                                         
+     5518                  KRANJ                                                         
+     5519                  KRŠKO 
+     5520                  LAŠKO                                                         
+     5521                  LENART                                                        
+     5522                  LENDAVA                                                       
+     5523                  LITIJA                                                        
+     5524                  LJUBLJANA                                                     
+     5529                  LJUTOMER                                                      
+     5530                  LOGATEC                                                       
+     5534                  METLIKA                                                       
+     5535                  MOZIRJE                                                       
+     5536                  MURSKA SOBOTA
+     5537                  NOVA GORICA                                                   
+     5538                  NOVO MESTO                                                    
+     5539                  ORMOŽ                                                         
+     5540                  PIRAN                                                         
+     5541                  POSTOJNA                                                      
+     5542                  PTUJ                                                          
+     5543                  RADLJE OB DRAVI                                               
+     5544                  RADOVLJICA                                                    
+     5545                  RAVNE NA KOROŠKEM                                             
+     5546                  RIBNICA                                                       
+     5547                  SEVNICA                                                       
+     5548                  SEŽANA                                                        
+     5549                  SLOVENJ GRADEC                                                
+     5550                  SLOVENSKA BISTRICA                                            
+     5551                  SLOVENSKE KONJICE    
+     5552                  ŠENTJUR PRI CELJU                                             
+     5553                  ŠKOFJA LOKA                                                   
+     5554                  ŠMARJE PRI JELŠAH                                             
+     5555                  TOLMIN                                                        
+     5556                  TRBOVLJE                                                      
+     5557                  TREBNJE                                                       
+     5558                  TRŽIÈ                                                         
+     5559                  VELENJE                                                       
+     5560                  VRHNIKA                                                       
+     5561                  ZAGORJE OB SAVI                                               
+     5562                  ŽALEC                                                         
+     5564                  MARIBOR                                                       
+     5565                  PESNICA                                                       
+     5567                  MARIBOR - ROTOVŽ  
+     5568                  RUŠE                                                           
+     5580                  IZDANO V DRUGI DRŽAVI                                         
+     5598                  MNZ                                                           
+     5599                  NEZNANA OBÈ   
+
+
+ 
+    
+

@@ -1,0 +1,10 @@
+     PRVR       VREMENSKE OKOLIŠÈINE   
+
+     D          DEŽEVNO                                                       
+     J          JASNO                                                         
+     M          MEGLA                                                         
+     N          NEZNANO                                                       
+     O          OBLAÈNO                                                       
+     S          SNEG                                                          
+     T          TOÈA                                                          
+     V          VETER 

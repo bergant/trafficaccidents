@@ -1,0 +1,26 @@
+     PRVU       ŠIFRANT VRSTE UDELEŽENCA V PROMETU  
+
+     AV                    VOZNIK AVTOBUSA                                               
+     DS                    VOZNIK DELOVNEGA STROJA                                       
+     KM                    VOZNIK KOLESA Z MOTORJEM                                      
+     KO                    KOLESAR                                                       
+     KR                    X-KRŠITELJ - JRM                                              
+     KV                    VOZNIK KOMBINIRANEGA VOZILA                                   
+     LK                    VOZNIK LAHKEGA ŠTIRIKOLESA                                    
+     MK                    VOZNIK MOTORNEGA KOLESA                                       
+     MO                    VOZNIK MOPEDA                                                 
+     OA                    VOZNIK OSEBNEGA AVTOMOBILA                                    
+     OD                    ODGOVORNA OSEBA                                               
+     OS                    OSTALO                                                        
+     PE                    PEŠEC                                                         
+     PO                    PRAVNA OSEBA 
+     PT                    POTNIK                                                        
+     SD                    POSAMEZNIK, S.P., KI SAMOSTOJNO OPRAVLJA DEJAVNOST IN ZAPOSLUJE DRUGE    
+     SK                    VOZNIK ŠTIRIKOLESA                                            
+     SM                    SKRBNIK MLADOLETNIKA                                          
+     SP                    SAMOSTOJNI PODJETNIK                                          
+     SV                    VOZNIK SPECIALNEGA VOZILA                                     
+     TK                    VOZNIK TRIKOLESA                                              
+     TR                    VOZNIK TRAKTORJA                                              
+     TV                    VOZNIK TOVORNEGA VOZILA   
+ 

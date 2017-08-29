@@ -1,0 +1,8 @@
+  PRPO         POŠKODBA OSEBE IN KLASIFIKACIJA NESREÈE  
+
+     B         BREZ POŠKODBE                                                                                        
+     H         HUDA TELESNA POŠKODBA                                                                              
+     L         LAŽJA TELESNA POŠKODBA                                                                                                                      
+     S         SMRT                                                                                                       
+     U         BREZ POŠKODBE-UZ                                              
+

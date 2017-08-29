@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Darko Bergant" />
+
+
+<title>Traffic Accidents in Slovenia</title>
+
+<link href="doc_libs/tufte-css/tufte.css" rel="stylesheet" />
+<link href="doc_libs/highlightjs/default.css" rel="stylesheet" />
+<script src="doc_libs/highlightjs/highlight.js"></script>
+<script src="doc_libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="doc_libs/viz/viz.js"></script>
+<link href="doc_libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="doc_libs/grViz-binding/grViz.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Traffic Accidents in Slovenia</h1>
+<h4 class="author"><em>Darko Bergant</em></h4>
+<h4 class="date"><em>August 2017</em></h4>
+
+
+
+<!--style>
+body {
+/*  background-color: #fefefe;*/
+  color: #222;
+}
+</style-->
+<style>
+pre code { font-size: 0.8rem; }
+code { 
+  line-height: 1.1; 
+}
+</style>
+<div id="about" class="section level1">
+<h1>About</h1>
+<p>This tutorial is an overview of <a href="https://github.com/bergant/trafficaccidents"><code>trafficaccidents</code></a> data package. The package contains information about traffic accidents in Slovenia examined by the <a href="http://www.policija.si">police</a> from 2005 to 2016. Original files<label for="tufte-sn-1" class="margin-toggle sidenote-number">1</label><input type="checkbox" id="tufte-sn-1" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">1</span> The original data is published on <a href="http://www.policija.si/index.php/statistika/prometna-varnost">http://www.policija.si/</a></span> were converted to R data frames without changes, except for:</p>
+<ul>
+<li>Additional accident geo positions in WGS 84</li>
+<li>Additional calendar table (with local holidays)</li>
+<li>Translation to English</li>
+</ul>
+<p>The tutorial was created using R language <span class="citation">(R Core Team <label for="tufte-mn-1" class="margin-toggle">&#8853;</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle">2017<span class="marginnote">R Core Team. 2017. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a>.</span>)</span> and several R extensions. See the list of all used packages at the <a href="#packages">end</a> of the document. <!--like ggplot2 [@R-ggplot2] and R Markdown [@R-rmarkdown].--></p>
+<p>Note that this is not a thorough analysis of traffic accidents. The only goal is to bring the data and visualization tools to a larger group of users.</p>
+</div>
+<div id="data-structure" class="section level1">
+<h1>Data Structure</h1>
+<p>Information about accidents is stored in three data frames:</p>
+<ul>
+<li><code>event</code> contains accident events with date, time, position and other accident attributes.</li>
+<li><code>party</code> contains attributes of the parties involved.</li>
+<li><code>calendar</code> contains all dates from 2005 to 2016.</li>
+</ul>
+<div class="figure">
+<div id="htmlwidget-6f28bb5216457ab214a8" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6f28bb5216457ab214a8">{"x":{"diagram":"#data_model\ndigraph {\ngraph [rankdir=BT tooltip=\"Data Model\" rankdir = LR]\n\nnode [margin=0 fontcolor = \"#444444\" ]\n\nedge [color = \"#555555\", arrowsize = 1, ]\n\n\n  \"calendar\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"3\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">calendar<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>date<\/U><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">Date<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">date_POSIXct<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">POSIXct, POSIXt<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">year<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">numeric<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">month<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">numeric<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">day<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">integer<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">wday<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">numeric<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">year_day<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">numeric<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">working_day<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"event\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"3\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">event<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>src_file<\/U><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">character<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>event_id<\/U><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">integer<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">injury<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">date<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">Date<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">hour<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">integer<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">in_city<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">road_type<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">location_id<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">road_section_id<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">pos_number<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">integer<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">location_type<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">cause<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">event_type<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">weather<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">traffic<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">surface_conditions<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">surface<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">pos_x<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">integer<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">pos_y<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">integer<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">lon<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">numeric<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">lat<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">numeric<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"party\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"3\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">party<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">src_file<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">character<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">event_id<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">integer<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">accident_role<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">age<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">integer<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">gender<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">country<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">p_injury<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">traffic_role<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">seat_belt_or_helmet<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">experience_y<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">integer<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">experience_m<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">integer<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">alcotest<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">numeric<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">alco_exam<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">numeric<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">country_iso<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">factor<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n\"event\"->\"calendar\"\n\"party\"->\"event\"\n}","config":{"engine":null,"options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption marginnote shownote">
+Data structure
+</p>
+</div>
+</div>
+<div id="accident-locations" class="section level1">
+<h1>Accident Locations</h1>
+<p>The majority of accidents (93%) are geocoded. Use <code>pos_x</code> and <code>pos_y</code> columns for geographic location.<label for="tufte-sn-2" class="margin-toggle sidenote-number">2</label><input type="checkbox" id="tufte-sn-2" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">2</span> Columns <code>pos_x</code> and <code>pos_y</code> are geocoded in D48/GK coordinate reference system. Use columns lon and lat for WGS84</span> For example, we can plot all accidents locations as points, coloured by road category (<code>road_type</code>):</p>
+<pre class="r"><code>library(dplyr)
+library(ggplot2)
+library(viridis)
+library(trafficaccidents)
+
+dat_roads &lt;- 
+  event %&gt;% 
+  filter(!is.na(road_type), !is.na(pos_x)) %&gt;% 
+  arrange(desc(road_type))
+
+ggplot(data = dat_roads, aes(pos_y, pos_x, color = road_type) ) +
+  geom_point(alpha = 0.03, size = 0.2) +
+  coord_fixed() +
+  scale_color_viridis(discrete = TRUE, end = 0.7, option = &quot;A&quot;) +
+  guides(colour = guide_legend(
+    override.aes = list(alpha = 1, size = 2), title = &quot;Road category&quot;)) +
+  theme_void() +
+  theme(legend.position = c(0.95,0.3))</code></pre>
+<div class="figure">
+<p class="caption marginnote shownote">
+Traffic accidents locations by road category
+</p>
+<img src="index_files/figure-html/Slovenia-1.png" alt="Traffic accidents locations by road category"  />
+</div>
+</div>
+<div id="time" class="section level1">
+<h1>Time</h1>
+<p>Working days have different time distribution than weekends and holidays.</p>
+<p>
+<span class="marginnote shownote"><!--
+<div class="figure">--> <img src="index_files/figure-html/time_working_day-1.png" alt=" "  /> <!--
+<p class="caption marginnote">--> <!--</p>--> <!--</div>--></span>
+</p>
+<pre class="r"><code>days_count &lt;-
+  calendar %&gt;% 
+  group_by(year, working_day) %&gt;% 
+  summarise(days = n())
+
+accidents_per_hour &lt;- 
+  event %&gt;% 
+  left_join(calendar, by = &quot;date&quot;) %&gt;% 
+  group_by(year, working_day, hour) %&gt;% 
+  count %&gt;% 
+  left_join(days_count, by = c(&quot;year&quot;, &quot;working_day&quot;)) %&gt;% 
+  mutate(p = n / days)
+
+ggplot(accidents_per_hour, aes(x = hour, y = p)) +
+    geom_point(alpha = 0.2, size = 0.2, position = position_jitter(0.1)) +
+    geom_smooth(method = &quot;loess&quot;, span = 1/3, color = &quot;gray&quot;) +
+    scale_x_continuous(breaks = 1:7*3, name = &quot;Hour&quot;, minor_breaks = NULL) +
+    scale_y_continuous(limits = c(0, NA), breaks = 0:6 * 2, 
+                       name = &quot;Average number of accidents&quot;) +
+    coord_cartesian(y=c(0, 9)) +
+    facet_wrap(~ working_day, ncol = 1, scales = &quot;fixed&quot;) + 
+    theme_minimal()</code></pre>
+</div>
+<div id="commuting-pattern" class="section level1">
+<h1>Commuting Pattern</h1>
+<p>With “joy plot” from <code>ggjoy</code> package <span class="citation">(Wilke <label for="tufte-mn-2" class="margin-toggle">&#8853;</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle">2017<span class="marginnote">Wilke, Claus O. 2017. <em>Ggjoy: Joyplots in ’Ggplot2’</em>. <a href="https://CRAN.R-project.org/package=ggjoy" class="uri">https://CRAN.R-project.org/package=ggjoy</a>.</span>)</span> we can discover the differences of time distributions between road categories. The peaks at rush hour are more visible on roads than on city streets.</p>
+<p>
+<span class="marginnote shownote"><!--
+<div class="figure">--> <img src="index_files/figure-html/joy_road_type-1.png" alt="Time distribution of accidents on working day"  /> <!--
+<p class="caption marginnote">-->Time distribution of accidents on working day<!--</p>--> <!--</div>--></span>
+</p>
+<pre class="r"><code>library(ggjoy)
+
+dat_rt_wd &lt;- 
+  event %&gt;% 
+  left_join(calendar, by = &quot;date&quot;) %&gt;% 
+  filter(
+    working_day == &quot;Working day&quot;, 
+    !is.na(road_type)
+  )
+
+ggplot(dat_rt_wd) +
+  geom_joy(aes(x = hour, y = road_type, fill = road_type), alpha = 0.5 ) +
+  scale_x_continuous(breaks = 1:7*3, minor_breaks = NULL,
+                     limits = c(0,23), name = &quot;Hour&quot;) +
+  scale_fill_viridis(discrete = TRUE, end = 0.7, option = &quot;A&quot;)+
+  scale_y_discrete(limits = rev(levels(dat_rt_wd$road_type)), name = NULL)+
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;) </code></pre>
+</div>
+<div id="time-and-place" class="section level1">
+<h1>Time and Place</h1>
+<p>With animation it is possible to see accident locations by hour. The following animation was created with gganimate package <span class="citation">(Robinson <label for="tufte-mn-3" class="margin-toggle">&#8853;</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle">2016<span class="marginnote">Robinson, David. 2016. <em>Gganimate: Create Easy Animations with Ggplot2</em>. <a href="http://github.com/dgrtwo/gganimate" class="uri">http://github.com/dgrtwo/gganimate</a>.</span>)</span>.</p>
+<pre class="r"><code>event_wd &lt;-
+  event %&gt;%
+  filter(!is.na(pos_x)) %&gt;%
+  mutate(alpha = 0.2) %&gt;%
+  left_join(calendar, by = &quot;date&quot;) %&gt;%
+  filter(working_day == &quot;Working day&quot;)
+
+shift_hour &lt;- function(x, n, a) {
+  mutate(x, alpha = a, hour = (hour + n) %% 24)
+}
+
+dat_wd_shift &lt;-
+  bind_rows(
+    event_wd, shift_hour(event_wd, 1, 0.1), shift_hour(event_wd, 2, 0.07)
+  ) %&gt;%
+  arrange(hour, desc(road_type))
+
+clock &lt;- list(x = 378938 + 30000, y = 191590 - 10000, width = 8500)
+
+p1 &lt;-
+  ggplot(data = dat_wd_shift, aes(frame = hour)) +
+  geom_point(aes(pos_y, pos_x, alpha = alpha, color = road_type), size = 0.4) +
+  scale_alpha_identity() +
+  scale_color_viridis(discrete = TRUE, end = 0.7, option = &quot;A&quot;, guide = &quot;none&quot;,
+                      limits = levels(dat_wd_shift$road_type)) +
+  coord_fixed() +
+  geom_text(aes(label = sprintf(&quot;%02d&quot;, hour)), color = &quot;gray&quot;,
+            x = clock$x, y = clock$y, size = 9) +
+  geom_segment(size = 2, aes(
+    x = clock$x + clock$width * sin(hour/6 * pi),
+    y = clock$y + clock$width * cos(hour/6 * pi),
+    xend = clock$x + clock$width*1.4 * sin(hour/6 * pi),
+    yend = clock$y + clock$width*1.4 * cos(hour/6 * pi),
+    color = levels(dat_wd_shift$road_type)[as.integer(hour &gt;= 12)*8+1]
+  )) +
+  theme_void()
+
+
+library(gganimate)
+library(animation)
+
+magickPath &lt;- shortPathName(&quot;magick.exe&quot;)
+ani.options(convert=magickPath)
+#ani.options(ani.width = 1024, ani.height = 640+55)
+ani.options(ani.width = 1024*1.3, ani.height = (640+55)*1.3)
+ani.options(interval = 0.1)
+gganimate(p1, &quot;docs/animation/accidents_animation.gif&quot;, title_frame = FALSE )</code></pre>
+<div class="figure">
+<img src="animation/accidents_animation.gif" />
+
+</div>
+</div>
+<div id="severity" class="section level1">
+<h1>Severity</h1>
+<p>All accidents are marked with injury severity (column <code>injury</code>). The plot below compares time distributions of accidents for different levels of severities.</p>
+<p>
+<span class="marginnote shownote"><!--
+<div class="figure">--> <img src="index_files/figure-html/joy_severity-1.png" alt="Distribution of accidents over time"  /> <!--
+<p class="caption marginnote">-->Distribution of accidents over time<!--</p>--> <!--</div>--></span>
+</p>
+<pre class="r"><code>dat &lt;- 
+  event %&gt;% 
+  left_join(calendar, by = &quot;date&quot;)
+  
+
+
+ggplot(dat) +
+  geom_joy(aes(x = hour, y = injury, alpha = injury), fill = &quot;darkred&quot;) +
+  scale_x_continuous(breaks = 1:7*3, minor_breaks = NULL, 
+                     limits = c(0,23), name = &quot;Hour&quot;) +
+  scale_y_discrete(limits = rev(levels(dat$injury)), name = NULL)+
+  scale_alpha_discrete(range = c(0.06, 0.7), guide = &quot;none&quot;) +
+  theme_minimal() +
+  facet_wrap(~working_day, ncol = 1) </code></pre>
+</div>
+<div id="cause" class="section level1">
+<h1>Cause</h1>
+<p>Police classifies each accident by main cause. The plot below represent the number of accidents as a circle size and injury severity as color opacity for different accident causes:</p>
+<pre class="r"><code>dat_type &lt;- 
+  event %&gt;% 
+  group_by(cause, injury) %&gt;% 
+  count 
+
+ggplot(dat_type, aes(x = 1, y=1, size = sqrt(n) / 7, alpha = injury)) +
+  scale_size_identity() +
+  geom_point(color = &quot;darkred&quot;) +
+  scale_y_discrete(limits = rev(levels(dat_type$cause))) +
+  coord_fixed(0.7) +
+  scale_alpha_discrete(range = c(0.06, 0.7)) +
+  guides(alpha = guide_legend(override.aes = list(size = 6))) +
+  theme_void(base_size = 12) +
+  #theme(strip.text = element_text(size = 10)) +
+  labs(x = NULL, y = NULL, alpha = &quot;Severity&quot;) +
+  facet_wrap(~cause, ncol = 3)</code></pre>
+<div class="figure fullwidth">
+<img src="index_files/figure-html/causes-1.png" alt=" "  />
+<p class="caption marginnote shownote">
+</p>
+</div>
+</div>
+<div id="causes-and-accident-types" class="section level1">
+<h1>Causes and Accident Types</h1>
+<p>The <code>accident_type</code> column defines what happened (e.g. side collision or vehicle rollover). The plot below explores its relation to accident cause.</p>
+<pre class="r"><code>dat_cause_type &lt;- 
+  event %&gt;% 
+  group_by(cause, event_type, injury) %&gt;% 
+  count
+
+ggplot(dat_cause_type, 
+       aes(x = event_type, y=cause, size = sqrt(n) / 7, alpha = injury)) +
+  geom_point(color = &quot;darkred&quot;) +
+  scale_size_identity() +
+  scale_alpha_discrete(range = c(0.06, 0.7)) +
+  guides(alpha = guide_legend(override.aes = list(size = 10))) +
+  scale_x_discrete(position = &quot;top&quot;) +
+  scale_y_discrete(limits = rev(levels(dat_cause_type$cause))) +
+  coord_fixed() +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle=90,hjust = 0, vjust = 0.3, size = 12),
+    axis.text.y = element_text(size = 12),
+    legend.position = &quot;bottom&quot;
+  ) +
+  labs(x = &quot;Accident type&quot;, y = &quot;Cause&quot;, alpha = &quot;Severity&quot;)</code></pre>
+<div class="figure fullwidth">
+<img src="index_files/figure-html/cause_types-1.png" alt=" "  />
+<p class="caption marginnote shownote">
+</p>
+</div>
+</div>
+<div id="parties" class="section level1">
+<h1>Parties</h1>
+<p>There can be several parties involved in same accident. The data includes also some cases where there are several parties at fault for the same accident. Here the <code>events_party</code> data frame is created with single event and some attributes from one party at fault.</p>
+<pre class="r"><code>party_at_fault &lt;- 
+  party %&gt;% 
+  filter(accident_role == &quot;At fault&quot;) 
+
+other_party &lt;- 
+  party %&gt;% 
+  filter(accident_role != &quot;At fault&quot;) 
+
+events_party &lt;- 
+  party_at_fault %&gt;% 
+  group_by(src_file, event_id) %&gt;%
+  summarise(
+    age = first(age),
+    gender = first(gender),
+    alco =  first(alcotest)  &gt; 0, 
+    experience = first(experience_y) + first(experience_m)/12,
+    traffic_role = first(traffic_role)
+  )
+
+events_party %&gt;% 
+  group_by(traffic_role) %&gt;% 
+  summarise(accidents = n()) %&gt;% 
+  arrange(desc(accidents)) %&gt;% 
+  head(8) %&gt;% 
+  kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">traffic_role</th>
+<th align="right">accidents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Car driver</td>
+<td align="right">192340</td>
+</tr>
+<tr class="even">
+<td align="left">Truck driver</td>
+<td align="right">24174</td>
+</tr>
+<tr class="odd">
+<td align="left">Cyclist</td>
+<td align="right">7862</td>
+</tr>
+<tr class="even">
+<td align="left">Motorcycle driver</td>
+<td align="right">5290</td>
+</tr>
+<tr class="odd">
+<td align="left">Motorized bicycle driver</td>
+<td align="right">3344</td>
+</tr>
+<tr class="even">
+<td align="left">Bus driver</td>
+<td align="right">1704</td>
+</tr>
+<tr class="odd">
+<td align="left">Pedestrian</td>
+<td align="right">1637</td>
+</tr>
+<tr class="even">
+<td align="left">Tractor driver</td>
+<td align="right">1492</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="car-drivers-age" class="section level1">
+<h1>Car Driver’s Age</h1>
+<p>Most frequent parties at fault are car drivers. Is it true, that there are more accidents involving young drivers, driving at night?</p>
+<pre class="r"><code>hour_intervals &lt;- setNames(
+  c(0, 6, 22), 
+  c(&quot;Night (22h - 06h)&quot;, &quot;Day (6h-21h)&quot;, &quot;Night (22h - 06h)&quot;)
+)
+
+events_party_car_drivers &lt;-
+  events_party %&gt;% 
+  filter(traffic_role %in% c(&quot;Car driver&quot;)) %&gt;% 
+  filter(age &gt;= 18) %&gt;% 
+  inner_join(event, by = c(&quot;src_file&quot;, &quot;event_id&quot;)) %&gt;% 
+  inner_join(calendar, by = &quot;date&quot;) %&gt;% 
+  mutate(
+    hour_interval = findInterval(hour, hour_intervals),
+    hour_interval = names(hour_intervals)[hour_interval],
+    age = round(age) 
+  )
+
+events_party_car_drivers %&gt;% 
+  filter(date &gt;= as.Date(&quot;2011-01-01&quot;)) %&gt;% 
+  group_by(age, hour_interval, src_file) %&gt;% 
+  count %&gt;% 
+  
+  ggplot(aes(x = age, y = n)) +
+  #geom_point(alpha = 0.7) +
+  geom_point(alpha = 0.5, mapping = aes(color = src_file)) +
+  geom_smooth(alpha = 0.2, method = &quot;loess&quot;) +
+  facet_wrap(~hour_interval, scales = &quot;free_y&quot;) +
+  labs(x = &quot;Age&quot;, y = &quot;Number of accidents&quot;, color = NULL) +
+  scale_x_continuous(breaks = 1:10*10, limits = c(18, 85)) +
+  scale_color_brewer(palette = &quot;Blues&quot;) +
+  theme_bw()</code></pre>
+<div class="figure">
+<p class="caption marginnote shownote">
+Number of accidents per year by car driver’s age
+</p>
+<img src="index_files/figure-html/by_age-1.png" alt="Number of accidents per year by car driver's age"  />
+</div>
+</div>
+<div id="alcohol-involved-accidents-by-age" class="section level1">
+<h1>Alcohol Involved Accidents by Age</h1>
+<p>Alcohol involved accidents, number of accidents by age at day/night:</p>
+<pre class="r"><code>events_party_car_drivers %&gt;% 
+  filter(date &gt;= as.Date(&quot;2011-01-01&quot;), alco) %&gt;% 
+  group_by(age, hour_interval, src_file) %&gt;% 
+  count %&gt;% 
+  
+  ggplot(aes(x = age, y = n)) +
+  #geom_point(alpha = 0.7) +
+  geom_point(alpha = 0.3, mapping = aes(color = src_file)) +
+  geom_smooth(method = &quot;loess&quot;, color = &quot;orange&quot;, span = 0.6) +
+  facet_wrap(~hour_interval) +
+  labs(x = &quot;Age&quot;, y = &quot;Number of accidents&quot;, color = NULL) +
+  scale_x_continuous(breaks = 1:10*10, limits = c(18, 80)) +
+  scale_color_brewer(palette = &quot;Oranges&quot;) +
+  theme_bw()+
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<div class="figure">
+<p class="caption marginnote shownote">
+Number of alcohol induced accidents per year, by car driver age
+</p>
+<img src="index_files/figure-html/alco_fig-1.png" alt="Number of alcohol induced accidents per year, by car driver age"  />
+</div>
+<p><a name="packages"/></p>
+</div>
+<div id="r-packages" class="section level1">
+<h1>R Packages</h1>
+<p><strong>knitr</strong> 1.16</p>
+<p>
+Xie Y (2017). <em>knitr: A General-Purpose Package for Dynamic Report Generation in R</em>. R package version 1.16, <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.
+</p>
+<p><strong>rmarkdown</strong> 1.5</p>
+<p>
+Allaire J, Cheng J, Xie Y, McPherson J, Chang W, Allen J, Wickham H, Atkins A, Hyndman R and Arslan R (2017). <em>rmarkdown: Dynamic Documents for R</em>. R package version 1.5, <a href="https://CRAN.R-project.org/package=rmarkdown">https://CRAN.R-project.org/package=rmarkdown</a>.
+</p>
+<p><strong>tidyr</strong> 0.6.2</p>
+<p>
+Wickham H (2017). <em>tidyr: Easily Tidy Data with ‘spread()’ and ‘gather()’ Functions</em>. R package version 0.6.2, <a href="https://CRAN.R-project.org/package=tidyr">https://CRAN.R-project.org/package=tidyr</a>.
+</p>
+<p><strong>dplyr</strong> 0.5.0</p>
+<p>
+Wickham H and Francois R (2016). <em>dplyr: A Grammar of Data Manipulation</em>. R package version 0.5.0, <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.
+</p>
+<p><strong>ggjoy</strong> 0.2.0</p>
+<p>
+Wilke C (2017). <em>ggjoy: Joyplots in ‘ggplot2’</em>. R package version 0.2.0, <a href="https://CRAN.R-project.org/package=ggjoy">https://CRAN.R-project.org/package=ggjoy</a>.
+</p>
+<p><strong>viridis</strong> 0.4.0</p>
+<p>
+Garnier S (2017). <em>viridis: Default Color Maps from ‘matplotlib’</em>. R package version 0.4.0, <a href="https://CRAN.R-project.org/package=viridis">https://CRAN.R-project.org/package=viridis</a>.
+</p>
+<p><strong>viridisLite</strong> 0.2.0</p>
+<p>
+Garnier S (2017). <em>viridisLite: Default Color Maps from ‘matplotlib’ (Lite Version)</em>. R package version 0.2.0, <a href="https://CRAN.R-project.org/package=viridisLite">https://CRAN.R-project.org/package=viridisLite</a>.
+</p>
+<p><strong>ggplot2</strong> 2.2.1</p>
+<p>
+Wickham H (2009). <em>ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. ISBN 978-0-387-98140-6, <a href="http://ggplot2.org">http://ggplot2.org</a>.
+</p>
+<p><strong>datamodelr</strong> 0.2.1.9001</p>
+<p>
+Bergant D (2017). <em>datamodelr: Define and Plot Data Model Diagrams</em>. R package version 0.2.1.9001, <a href="https://github.com/bergant/datamodelr">https://github.com/bergant/datamodelr</a>.
+</p>
+<p><strong>trafficaccidents</strong> 0.1.0</p>
+<p>
+Bergant D (2018). <em>trafficaccidents: Traffic Accidents in Slovenia</em>. R package version 0.1.0, <a href="http://github.com/bergant/trafficaccidents">http://github.com/bergant/trafficaccidents</a>.
+</p>
+<p><strong>tufte</strong> 0.2</p>
+<p>
+Xie Y and Allaire J (2016). <em>tufte: Tufte’s Styles for R Markdown Documents</em>. R package version 0.2, <a href="https://CRAN.R-project.org/package=tufte">https://CRAN.R-project.org/package=tufte</a>.
+</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

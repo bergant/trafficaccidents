@@ -1,0 +1,13 @@
+  LOVC         KATEGORIJA CESTE, NASELJA  
+
+     H         HITRA CESTA                                                   
+     L         LOKALNA CESTA                                                  
+     N         NASELJE Z ULIÈNIM SISTEMOM                                       
+     T         TURISTIÈNA CESTA                                              
+     V         NASELJE BREZ ULIÈNEGA SISTEMA                                 
+     0         AVTOCESTA                                                     
+     1         GLAVNA CESTA I. REDA                                          
+     2         GLAVNA CESTA II. REDA                                         
+     3         REGIONALNA CESTA I. REDA                                      
+     4         REGIONALNA CESTA II. REDA                                     
+     5         REGIONALNA CESTA III. REDA                   

@@ -1,0 +1,13 @@
+     PRVZ       VZROK PROMETNE NESREÈE  
+
+     CE         NEPRAVILNOSTI NA CESTI                                        
+     HI         NEPRILAGOJENA HITROST                                         
+     NP         NEPRAVILNOSTI PEŠCA                                           
+     OS         OSTALO                                                        
+     PD         NEUPOŠTEVANJE PRAVIL O PREDNOSTI                              
+     PR         NEPRAVILNO PREHITEVANJE                                       
+     PV         PREMIKI Z VOZILOM                                             
+     SV         NEPRAVILNA STRAN / SMER VOŽNJE                                
+     TO         NEPRAVILNOSTI NA TOVORU                                       
+     VO         NEPRAVILNOSTI NA VOZILU                                       
+     VR         NEUSTREZNA VARNOSTNA RAZDALJA  

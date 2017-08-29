@@ -1,0 +1,7 @@
+     PRSP       STANJE PROMETA V ÈASU PROMETNE NESREÈE    
+
+     E          NEZNANO                                                       
+     G          GOST                                                          
+     N          NORMALEN                                                      
+     R          REDEK                                                         
+     Z          ZASTOJI  

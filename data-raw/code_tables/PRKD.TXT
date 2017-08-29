@@ -1,0 +1,15 @@
+  PRKD       OPIS KRAJA DOGODKA   
+
+     Ž       ŽELEZNIŠKI PREHOD                                             
+     A       AVTOBUSNA POSTAJA                                             
+     C       CESTA                                                         
+     E       ŽELEZNIŠKO POSTAJALIŠÈE                                       
+     K       KOLESAR. ST. ALI PLOÈNIK                                      
+     M       KROŽNO KRIŽIŠÈE                                               
+     N       NARAVNO OKOLJE                                                
+     O       NARAVOVARSTVENO OBMOÈJE                                       
+     P       PARKIRNI PROSTOR                                              
+     R       KRIŽIŠÈE                                                      
+     T       PREDOR                                                        
+     V       VLAK                                                          
+     Z       PREHOD ZA PEŠCE   

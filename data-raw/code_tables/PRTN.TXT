@@ -1,0 +1,12 @@
+     PRTN       TIP PROMETNE NESREÈE  
+
+     ÈT         ÈELNO TRÈENJE                                                 
+     BT         BOÈNO TRÈENJE                                                 
+     NT         NALETNO TRÈENJE                                               
+     OP         OPLAŽENJE                                                     
+     OS         OSTALO                                                        
+     PP         POVOŽENJE PEŠCA                                               
+     PR         PREVRNITEV VOZILA                                             
+     PZ         POVOŽENJE ŽIVALI                                              
+     TO         TRÈENJE V OBJEKT                                              
+     TV         TRÈENJE V STOJEÈE / PARKIRANO VOZILO 

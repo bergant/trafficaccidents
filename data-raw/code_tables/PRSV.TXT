@@ -1,0 +1,7 @@
+     PRSV       VRSTA VOZIŠÈA  V ÈASU PROMETNE NESREÈE 
+
+     AH         HRAPAV  ASFALT / BETON                                        
+     AN         NERAVEN ASFALT / BETON                                        
+     AZ         ZGLAJEN ASFALT / BETON                                        
+     MA         MAKADAM                                                       
+     OS         OSTALO    

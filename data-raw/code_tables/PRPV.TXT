@@ -1,0 +1,11 @@
+     PRPV       STANJE VOZIŠÈA V ÈASU PROMETNE NESREÈE 
+
+     BL         BLATNO                                                        
+     MO         MOKRO                                                         
+     OS         OSTALO                                                        
+     PN         POLEDENELO - NEPOSIPANO                                       
+     PP         POLEDENELO - POSIPANO                                         
+     SL         SNEŽENO - PLUŽENO                                             
+     SN         SNEŽENO - NEPLUŽENO                                           
+     SP         SPOLZKO                                                       
+     SU         SUHO  
